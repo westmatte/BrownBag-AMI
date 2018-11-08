@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <LangVersion>7.3</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="1.50.5" />
+    <PackageReference Include="Microsoft.Azure.KeyVault.Core" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Azure.Services.AppAuthentication" Version="1.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.AzureKeyVault" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.1" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.6.0-preview3-27014-02" />
+    <PackageReference Include="WindowsAzure.Storage" Version="9.3.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
