@@ -23,6 +23,17 @@ public static async Task<string> GetAccessTokenAsync(string resource)
 ```
 A link to available resource endpoints are specified in the References / Further reading section at the end of the README. 
 
+To retrieve an Access Token to a keyvault on an AMI enabled VM, using powershell, and then retrieve a key vault secret using the retrieved access token.
+```
+$response = Invoke-WebRequest -Uri 'http://169.254.169.254/metadata/identity/oauth2/token?api-version=2018-02-01&resource=https%3A%2F%2Fvault.azure.net' -Method GET -Headers @{Metadata="true"}
+
+$content = $response.Content | ConvertFrom-Json
+
+$KeyVaultToken = $content.access_token
+
+(Invoke-WebRequest -Uri https://<your-key-vault-URL>/secrets/<secret-name>?api-version=2016-10-01 -Method GET -Headers @{Authorization="Bearer $KeyVaultToken"}).content
+```
+
 ## Prerequisites
 .NET Core 2.2 preview 3\
 An Azure Subscription
@@ -80,6 +91,7 @@ dotnet publish -c Release -r win10-x64
 dotnet publish -c Release -r ubuntu.16.04-x64
 
 ## NuGet Dependencies
+```
 Dapper - v1.50.5
 Microsoft.Azure.KeyVault.Core - v3.0.0
 Microsoft.Azure.Services.AppAuthentication - v1.0.1
@@ -90,18 +102,19 @@ Microsoft.Extensions.Configuration.Json - v2.1.1
 Microsoft.NETCore.App - v2.2.0-preview3-27014-02
 System.Data.SqlClient - v4.6.0-preview3-27014-02
 WindowsAzure.Storage - v9.3.2
-
+```
 
 ## References / Further reading
 To dive deeper into this topic, here are some more resources that I recommend reading.
 
-Introduction to Azure Managed Identity - https://docs.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/overview
-Get Access Tokens - https://docs.microsoft.com/sv-se/azure/active-directory/managed-identities-azure-resources/how-to-use-vm-token
-AppAuthentication NuGet - https://docs.microsoft.com/sv-se/azure/key-vault/service-to-service-authentication
-Available Services and Endpoints - https://docs.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/services-support-msi
-Azure Instance Metadata Service endpoint - https://docs.microsoft.com/sv-se/azure/virtual-machines/windows/instance-metadata-service 
+Introduction to Azure Managed Identity - https://docs.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/overview  
+Get Access Tokens - https://docs.microsoft.com/sv-se/azure/active-directory/managed-identities-azure-resources/how-to-use-vm-token  
+AppAuthentication NuGet - https://docs.microsoft.com/sv-se/azure/key-vault/service-to-service-authentication  
+Available Services and Endpoints - https://docs.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/services-support-msi  
+Azure Instance Metadata Service endpoint - https://docs.microsoft.com/sv-se/azure/virtual-machines/windows/instance-metadata-service  
+Using a System-Assigned Managed Identity to access an Azure Key Vault - https://docs.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/tutorial-windows-vm-access-nonaad  
 
-Microsoft Code Examples:
-AppService Managed Identity - https://github.com/Azure-Samples/app-service-msi-keyvault-dotnet
-Linux VM Managed Identity - https://github.com/Azure-Samples/linuxvm-msi-keyvault-arm-dotnet
+#### Microsoft Code Examples:
+AppService Managed Identity - https://github.com/Azure-Samples/app-service-msi-keyvault-dotnet  
+Linux VM Managed Identity - https://github.com/Azure-Samples/linuxvm-msi-keyvault-arm-dotnet  
 
